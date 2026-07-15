@@ -2,197 +2,1013 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Valentine's Day Card</title>
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Will You Be Mine Forever? ❤️</title>
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Caveat:wght@600&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
+    /* Reset & Base Styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+    
     body {
       font-family: 'Poppins', sans-serif;
-      background: radial-gradient(circle, #ffe4e6 0%, #fecdd3 100%);
-      overflow: hidden;
+      min-height: 100vh;
+      background: linear-gradient(-45deg, #ff9a9e, #fecfef, #fe9a8b, #f5f7fa);
+      background-size: 400% 400%;
+      animation: gradientBg 15s ease infinite;
+      overflow-x: hidden;
+      overflow-y: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      cursor: none;
     }
-    .cursive {
-      font-family: 'Dancing Script', cursive;
+
+    @keyframes gradientBg {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
-    /* Glassmorphism utility classes */
-    .glass-card {
-      background: rgba(255, 255, 255, 0.45);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      box-shadow: 0 8px 32px 0 rgba(251, 113, 133, 0.2);
+
+    /* Ambient Environmental Animations */
+    #ambient-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
     }
-    .glass-bubble {
-      background: rgba(255, 255, 255, 0.6);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.5);
-    }
-    /* Floating hearts animation */
-    .heart-particle {
+
+    .ambient-element {
       position: absolute;
       pointer-events: none;
-      animation: floatUp 4s linear forwards;
+      user-select: none;
     }
-    @keyframes floatUp {
-      0% {
-        transform: translateY(100vh) scale(0) rotate(0deg);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(-10vh) scale(1.5) rotate(360deg);
-        opacity: 0;
-      }
+
+    /* Cursor Glow & Heart Trail */
+    #cursor-glow {
+      position: fixed;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(255,182,193,0.4) 0%, rgba(255,255,255,0) 70%);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 9999;
+      mix-blend-mode: screen;
+      display: none;
     }
-    /* Smooth opacity transition for text changes */
-    .fade-transition {
-      transition: opacity 0.3s ease-in-out;
+
+    @media (hover: hover) {
+      #cursor-glow { display: block; }
+    }
+
+    .trail-heart {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9998;
+      font-size: 14px;
+      animation: trailFade 1s ease-out forwards;
+    }
+
+    @keyframes trailFade {
+      0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+      100% { transform: translate(-50%, -100%) scale(0.4); opacity: 0; }
+    }
+
+    /* Shared Screen Shake Animation */
+    .shake {
+      animation: screenShake 0.15s linear infinite;
+    }
+    @keyframes screenShake {
+      0% { transform: translate(2px, 1px) rotate(0deg); }
+      10% { transform: translate(-1px, -2px) rotate(-1deg); }
+      20% { transform: translate(-3px, 0px) rotate(1deg); }
+      30% { transform: translate(0px, 2px) rotate(0deg); }
+      40% { transform: translate(1px, -1px) rotate(1deg); }
+      50% { transform: translate(-1px, 2px) rotate(-1deg); }
+      60% { transform: translate(-3px, 1px) rotate(0deg); }
+      70% { transform: translate(2px, 1px) rotate(-1deg); }
+      80% { transform: translate(-1px, -1px) rotate(1deg); }
+      90% { transform: translate(2px, 2px) rotate(0deg); }
+      100% { transform: translate(1px, -2px) rotate(-1deg); }
+    }
+
+    /* Audio Control Button */
+    #audio-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.4);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    #audio-toggle:active { transform: scale(0.92); }
+
+    /* Cloud Infrastructure */
+    .cloud {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(4px);
+      border-radius: 100px;
+      animation: floatCloud linear infinite;
+    }
+    .cloud::before, .cloud::after {
+      content: '';
+      position: absolute;
+      background: rgba(255, 255, 255, 0.35);
+      border-radius: 50%;
+    }
+    @keyframes floatCloud {
+      0% { transform: translateX(-150px); }
+      100% { transform: translateX(calc(100vw + 150px)); }
+    }
+
+    /* Layout Containers */
+    .app-container {
+      position: relative;
+      width: 100%;
+      max-width: 430px; /* iPhone Max Width Frame */
+      padding: 20px;
+      z-index: 10;
+      perspective: 1000px;
+    }
+
+    /* Premium iOS Inspired Glassmorphism Card Frame */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.35);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: 36px;
+      padding: 32px 24px;
+      box-shadow: 0 24px 48px rgba(255, 154, 158, 0.25), 
+                  inset 0 1px 2px rgba(255, 255, 255, 0.5);
+      display: flex;
+      flex-direction: flex-wrap;
+      flex-direction: column;
+      align-items: center;
+      text-center: center;
+      width: 100%;
+      position: relative;
+      overflow: visible;
+      transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .page {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .hidden {
+      display: none !important;
+      opacity: 0;
+      transform: scale(0.9) translateY(20px);
+    }
+
+    /* Graphics and Typography Layout */
+    .gif-wrapper {
+      width: 100%;
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      border-radius: 24px;
+      overflow: hidden;
+    }
+
+    .romantic-gif {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 24px;
+    }
+
+    .salutation {
+      font-size: 26px;
+      font-weight: 600;
+      color: #d63384;
+      margin-bottom: 6px;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+
+    .sub-prompt {
+      font-size: 16px;
+      color: #6c757d;
+      margin-bottom: 20px;
+      font-weight: 500;
+    }
+
+    .proposal-title {
+      font-size: 24px;
+      font-weight: 600;
+      color: #212529;
+      margin-bottom: 32px;
+    }
+
+    /* Interaction Zone Layout */
+    .interaction-zone {
+      position: relative;
+      width: 100%;
+      min-height: 160px; /* Secure frame allocation preventing container collapses */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    .buttons-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      width: 100%;
+      height: 80px;
+      position: relative;
+    }
+
+    /* Premium Button Standards */
+    .btn {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      font-size: 16px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+      transition: background 0.3s, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s;
+      z-index: 10;
+    }
+
+    #yes-button {
+      background: linear-gradient(135deg, #ff416c, #ff4b2b);
+      color: white;
+      padding: 14px 28px;
+      animation: pulseGlow 2s infinite ease-in-out;
+      transform-origin: center center;
+    }
+
+    @keyframes pulseGlow {
+      0% { box-shadow: 0 0 0 0 rgba(255, 65, 108, 0.5); transform: scale(1); }
+      50% { box-shadow: 0 0 20px 6px rgba(255, 65, 108, 0.3); transform: scale(1.03); }
+      100% { box-shadow: 0 0 0 0 rgba(255, 65, 108, 0); transform: scale(1); }
+    }
+
+    #no-button {
+      background: rgba(255, 255, 255, 0.6);
+      color: #495057;
+      padding: 14px 28px;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      position: absolute;
+    }
+
+    /* Dedicated Glassmorphism Message Bubble Below Buttons */
+    .message-bubble-wrapper {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-top: 12px;
+      height: 48px;
+    }
+
+    .fixed-message-bubble {
+      background: rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      border-radius: 16px;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #e63946;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+      opacity: 0;
+      transform: scale(0.95);
+      transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+      pointer-events: none;
+      white-space: nowrap;
+      max-width: 90%;
+    }
+
+    .fixed-message-bubble.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* Dynamic Particle Infrastructures */
+    .interaction-node {
+      position: absolute;
+      pointer-events: none;
+      z-index: 100;
+      animation: scatter 1.2s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+    }
+
+    @keyframes scatter {
+      0% { transform: translate(-50%, -50%) translate(0, 0) scale(1) rotate(0deg); opacity: 1; }
+      100% { transform: translate(-50%, -50%) translate(var(--mx), var(--my)) scale(var(--s)) rotate(var(--r)); opacity: 0; }
+    }
+
+    /* Smoke Particle Variant for Button Removal */
+    .smoke-node {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 101;
+      filter: blur(3px);
+      animation: smokeOut 0.8s ease-out forwards;
+    }
+
+    @keyframes smokeOut {
+      0% { transform: translate(-50%, -50%) scale(1) translateY(0); opacity: 0.7; }
+      100% { transform: translate(-50%, -50%) scale(4) translateY(-30px); opacity: 0; filter: blur(8px); }
+    }
+
+    /* Envelope Mechanics (Page 2 exclusively) */
+    .envelope-container {
+      position: relative;
+      width: 240px;
+      height: 160px;
+      margin: 30px auto;
+      perspective: 800px;
+      cursor: pointer;
+    }
+
+    .envelope {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: #ff758c;
+      border-radius: 0 0 16px 16px;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.1);
+      transform-style: preserve-3d;
+      transition: transform 0.5s;
+    }
+
+    .envelope-flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      border-left: 120px solid transparent;
+      border-right: 120px solid transparent;
+      border-top: 90px solid #ff5e7e;
+      transform-origin: top center;
+      transition: transform 0.4s ease 0.2s;
+      z-index: 4;
+    }
+
+    .envelope-pocket {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      border-left: 120px solid #ff8da1;
+      border-right: 120px solid #ff8da1;
+      border-top: 80px solid transparent;
+      border-bottom: 80px solid #ff8da1;
+      border-radius: 0 0 16px 16px;
+      z-index: 3;
+    }
+
+    .letter-card {
+      position: absolute;
+      bottom: 5px;
+      left: 15px;
+      width: 210px;
+      height: 140px;
+      background: #fffdf9;
+      border-radius: 8px;
+      padding: 12px;
+      box-shadow: inset 0 0 12px rgba(0,0,0,0.03);
+      z-index: 2;
+      transition: transform 0.5s ease 0.4s;
+      overflow: hidden;
+    }
+
+    /* Envelope Active Processing Realization States */
+    .envelope-container.opened .envelope-flap {
+      transform: rotateX(180deg);
+      z-index: 1;
+    }
+
+    .envelope-container.opened .letter-card {
+      transform: translateY(-90px) scale(1.05);
+      z-index: 5;
+    }
+
+    /* Dynamic Expanded Structural Frame Mode when letter card expands out */
+    .letter-modal-active .glass-card {
+      max-width: 92%;
+      width: 500px;
+      padding-bottom: 24px;
+    }
+
+    .letter-modal-active .envelope-container {
+      display: none;
+    }
+
+    .expanded-letter {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      border-radius: 24px;
+      padding: 24px 20px;
+      text-align: left;
+      box-shadow: inset 0 0 20px rgba(255,255,255,0.6), 0 8px 32px rgba(230,57,70,0.05);
+      margin-top: 15px;
+      animation: modalReveal 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    @keyframes modalReveal {
+      0% { opacity: 0; transform: scale(0.95) translateY(10px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .letter-text {
+      font-family: 'Caveat', cursive;
+      font-size: 21px;
+      line-height: 1.45;
+      color: #333333;
+      white-space: pre-wrap;
+      min-height: 120px;
+    }
+
+    .signature-area {
+      margin-top: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      border-top: 1px dashed rgba(255, 117, 140, 0.3);
+      padding-top: 16px;
+    }
+
+    .signature-text {
+      font-family: 'Dancing Script', cursive;
+      font-size: 20px;
+      color: #d63384;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .heartbeat-icon {
+      animation: heartbeatPulse 1.2s infinite ease-in-out;
+      display: inline-block;
+    }
+
+    @keyframes heartbeatPulse {
+      0% { transform: scale(1); }
+      14% { transform: scale(1.25); }
+      28% { transform: scale(1); }
+      42% { transform: scale(1.25); }
+      70% { transform: scale(1); }
     }
   </style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-4 relative">
+<body>
 
-  <!-- Floating Hearts Container -->
-  <div id="hearts-container" class="absolute inset-0 z-0 overflow-hidden select-none"></div>
+  <!-- Background Ambient Vector Container -->
+  <div id="ambient-container"></div>
+  <div id="cursor-glow"></div>
 
-  <!-- Main Container Card -->
-  <div class="glass-card w-full max-w-md rounded-3xl p-8 text-center z-10 flex flex-col items-center justify-between min-h-[500px] transition-all duration-500 transform hover:scale-[1.01]">
-    
-    <!-- Decorative Header Elements -->
-    <div class="flex gap-2 justify-center mb-1">
-      <span class="text-2xl animate-bounce" style="animation-delay: 0s">💖</span>
-      <span class="text-2xl animate-bounce" style="animation-delay: 0.2s">✨</span>
-      <span class="text-2xl animate-bounce" style="animation-delay: 0.4s">💖</span>
-    </div>
+  <!-- Audio Infrastructure Component -->
+  <div id="audio-toggle" title="Play Romance Ambient Mode">🎵</div>
+  <audio id="romantic-audio" loop preload="auto">
+    <source src="" type="audio/mpeg">
+  </audio>
 
-    <!-- Main Dynamic GIF Area -->
-    <div class="w-full flex justify-center items-center my-4 min-h-[200px]">
-      <img id="main-gif" src="https://media.tenor.com/images/5d31fb84a3070624bf162a4073fb1178/tenor.gif" alt="Cute Valentine GIF" class="rounded-2xl max-h-[220px] object-contain shadow-sm">
-    </div>
-
-    <!-- Interactive Button and Message Section -->
-    <div class="w-full flex flex-col items-center">
-      <!-- Action Buttons Container -->
-      <div id="buttons-container" class="flex gap-4 justify-center items-center w-full min-h-[80px] mb-4">
-        <button id="yes-btn" class="bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white font-semibold py-3 px-8 rounded-full shadow-lg shadow-rose-400/30 transition-all duration-300 transform active:scale-95 text-lg min-w-[100px]">
-          YES!
-        </button>
-        <button id="no-btn" class="bg-white/80 hover:bg-white text-gray-700 font-semibold py-3 px-8 rounded-full shadow-md transition-all duration-300 transform active:scale-95 text-lg min-w-[100px]">
-          NO
-        </button>
-      </div>
-
-      <!-- Small Glassmorphism Message Bubble Directly Below Buttons -->
-      <div class="min-h-[48px] flex items-center justify-center w-full">
-        <div id="message-bubble" class="glass-bubble px-5 py-2.5 rounded-2xl text-rose-600 font-medium text-sm shadow-sm opacity-0 scale-95 transition-all duration-300 max-w-[85%] text-center">
-          <span id="bubble-text" class="fade-transition"></span>
+  <!-- Interactive Shell Context -->
+  <div class="app-container" id="shell">
+    <div class="glass-card" id="card-element">
+      
+      <!-- PAGE ONE SECTION CONTAINER -->
+      <div id="page-1" class="page">
+        <div class="gif-wrapper">
+          <!-- Proposing GIF Placeholder -->
+          <img id="gif-p1" class="romantic-gif" src="https://media.tenor.com/images/9c3365a6e8df81f211364b497dbfa4e9/tenor.gif" alt="Cute Proposal Proposing GIF">
+        </div>
+        
+        <h2 class="salutation">Hey Riddhima ❤️</h2>
+        <p class="sub-prompt">I have something really important to ask you...</p>
+        <h3 class="proposal-title">💍 Will You Be Mine Forever?</h3>
+        
+        <div class="interaction-zone">
+          <div class="buttons-row" id="p1-buttons-frame">
+            <button id="yes-button" class="btn">❤️ YES</button>
+            <button id="no-button" class="btn">💔 NO</button>
+          </div>
+          <!-- Dedicated Isolated Glassmorphic Notification Area -->
+          <div class="message-bubble-wrapper">
+            <div id="fixed-bubble" class="fixed-message-bubble"></div>
+          </div>
         </div>
       </div>
-    </div>
 
+      <!-- PAGE TWO SECTION CONTAINER -->
+      <div id="page-2" class="page hidden">
+        <div class="gif-wrapper">
+          <!-- Celebration Accent GIF Placeholder -->
+          <img id="gif-p2" class="romantic-gif" src="https://media.tenor.com/images/5d31fb84a3070624bf162a4073fb1178/tenor.gif" alt="Romantic Celebration GIF">
+        </div>
+        
+        <h2 class="salutation" style="font-size: 28px; margin-bottom: 12px;">❤️ She Said YES ❤️</h2>
+        <p class="sub-prompt" style="font-style: italic; padding: 0 10px; color: #495057; line-height: 1.4;">
+          "From this moment I'll stand beside you, make you laugh, support your dreams, annoy you gussa dunga for sure 101% forever, and love you with all my heart."
+        </p>
+
+        <!-- Interactive Envelope Core Structure -->
+        <div class="envelope-container" id="envelope-interactive-node">
+          <div class="envelope">
+            <div class="envelope-flap"></div>
+            <div class="envelope-pocket"></div>
+            <div class="letter-card">
+              <div style="width: 100%; height: 100%; border: 1px dashed rgba(255,117,140,0.4); border-radius: 4px; display:flex; items-content: center; align-items:center; justify-content:center; color:#ff758c; font-weight:600; font-size:13px;">
+                Tap to Open 💌
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hidden Extended Letter Card Target Block Container -->
+        <div id="expanded-letter-block" class="expanded-letter hidden">
+          <div class="letter-text" id="typewriter-target"></div>
+          <div class="signature-area">
+            <div class="signature-text">Made with endless love by Raj <span class="heartbeat-icon">❤️</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </div>
 
   <script>
-    // Elements Selection
-    const yesBtn = document.getElementById('yes-btn');
-    const noBtn = document.getElementById('no-btn');
-    const mainGif = document.getElementById('main-gif');
-    const buttonsContainer = document.getElementById('buttons-container');
-    const heartsContainer = document.getElementById('hearts-container');
-    const messageBubble = document.getElementById('message-bubble');
-    const bubbleText = document.getElementById('bubble-text');
-
-    // State parameters for interactions
-    let clickCount = 0;
-    let yesScale = 1;
-    let noScale = 1;
-
-    // Direct, gentle text alerts when clicking NO
-    const noMessages = [
-      "Are you absolutely sure? 🥺",
-      "Think about it again! 💕",
-      "But we make such a great team! 🧸",
-      "What if I give you a giant virtual hug? 🤗",
-      "Don't do this to me... 💔",
-      "I will be very, very sad... 😢",
-      "Still no? Pretty please? 🌹",
-      "Okay, I'll ask one more time nicely... 🥺"
+    // Global Scope Variables & State Configuration Block
+    const noPhrases = [
+      "Soch lo 🥺",
+      "Abhi bhi time hai 😭",
+      "Pakka?",
+      "Ek baar aur soch lo ❤️",
+      "Riddhima please 🥹",
+      "Bache ka dil mat todo 💔",
+      "Dil toot jayega...",
+      "Itni bhi kya jaldi hai?",
+      "Come on Riddhima 😔",
+      "Are yaar 😭",
+      "Please na ❤️",
+      "Itna bhi gussa mat karo 😤",
+      "We have the same mindset ❤️",
+      "Meri naak tod dena, lekin YES click kar dena 😂",
+      "Hadd hai, pagal! 😤❤️",
+      "Just say YES... I'll teach you how to wear socks. 🧦😂",
+      "Soch lo warna main sad ho jaunga 😢",
+      "What will happen if you say just one YES? 😂",
+      "Come on, just say YES. 😗",
+      "Aren't you brave enough? 😉",
+      "I know I'm annoying, but I don't care anymore. ❤️",
+      "At least give me one chance, Riddhima ❤️",
+      "Even this button wants you to press YES 😂",
+      "How long are you going to keep running? 😅",
+      "Even God is telling you to say YES 😂",
+      "Destiny says YES ❤️",
+      "Come on, just say YES, Riddhi ❤️",
+      "Love Wins ❤️"
     ];
 
-    // Helper function to update the fixed message bubble with smooth transitions
-    function updateBubbleText(newText) {
-      // Step 1: Make sure the bubble container is visible
-      messageBubble.classList.remove('opacity-0', 'scale-95');
-      messageBubble.classList.add('opacity-100', 'scale-100');
-      
-      // Step 2: Smoothly fade out current text, change it, and fade back in
-      bubbleText.style.opacity = 0;
-      setTimeout(() => {
-        bubbleText.textContent = newText;
-        bubbleText.style.opacity = 1;
-      }, 150);
-    }
+    const targetLetterText = `Just a minute, fella, right before you go out of life\nAll your voices said you wouldn't last a minute, bare\nOne more time and you'll know your life is one to share\nJust a life, baby, right before we go from here\nAll those people said they wouldn't last a minute near\nI'm with you and I could roll into another year and have to forever loulmate\nJust a life fella right before you go out there next life`;
 
-    // Interactive behaviors for the NO button
-    noBtn.addEventListener('click', () => {
-      // Pick current phrase sequence based on click counts
-      const currentMessage = noMessages[clickCount % noMessages.length];
-      updateBubbleText(currentMessage);
+    let noClickCount = 0;
+    let currentYesScale = 1;
+    let lastDirectionX = 1;
+    let lastDirectionY = 1;
 
-      clickCount++;
+    // DOM Selection Targets
+    const shell = document.getElementById('shell');
+    const cardElement = document.getElementById('card-element');
+    const p1ButtonsFrame = document.getElementById('p1-buttons-frame');
+    const yesButton = document.getElementById('yes-button');
+    const noButton = document.getElementById('no-button');
+    const fixedBubble = document.getElementById('fixed-bubble');
+    const page1 = document.getElementById('page-1');
+    const page2 = document.getElementById('page-2');
+    const envelopeNode = document.getElementById('envelope-interactive-node');
+    const expandedLetterBlock = document.getElementById('expanded-letter-block');
+    const typewriterTarget = document.getElementById('typewriter-target');
+    const ambientContainer = document.getElementById('ambient-container');
+    const cursorGlow = document.getElementById('cursor-glow');
+    const audioToggle = document.getElementById('audio-toggle');
+    const romanticAudio = document.getElementById('romantic-audio');
 
-      // Trigger dynamic transformations to emphasize choices
-      if (clickCount <= 8) {
-        yesScale += 0.35;
-        noScale = Math.max(0.5, noScale - 0.08);
+    // Initialization & Background Generation Sequences
+    window.addEventListener('DOMContentLoaded', () => {
+      buildEnvironment();
+      initializeNoButtonCoordinates();
+    });
 
-        // Apply scale changes dynamically while preserving original font weight and curves
-        yesBtn.style.transform = `scale(${yesScale})`;
-        noBtn.style.transform = `scale(${noScale})`;
-
-        // Shift layout spacing to accommodate larger YES button cleanly
-        buttonsContainer.style.gap = `${4 + (clickCount * 3)}px`;
+    // Tracking Systems for Cursor Trail Glow Mechanics
+    window.addEventListener('mousemove', (e) => {
+      cursorGlow.style.left = e.clientX + 'px';
+      cursorGlow.style.top = e.clientY + 'px';
+      if (Math.random() < 0.12) {
+        spawnTrailHeart(e.clientX, e.clientY);
       }
     });
 
-    // Success generation logic when YES is selected
-    yesBtn.addEventListener('click', () => {
-      // Update primary card visual into pure celebration mode
-      mainGif.src = "https://media.tenor.com/images/7d3a0104bd1fb9a12c0192df27f7112b/tenor.gif";
-      
-      // Clear buttons controls cleanly
-      buttonsContainer.innerHTML = `
-        <h1 class="cursive text-4xl md:text-5xl text-rose-600 font-bold drop-shadow-sm animate-pulse">
-          Yay! Can't wait! 💖
-        </h1>
-      `;
-      
-      // Hide the persistent message bubble since choice is completed successfully
-      messageBubble.classList.remove('opacity-100', 'scale-100');
-      messageBubble.classList.add('opacity-0', 'scale-95');
+    window.addEventListener('touchmove', (e) => {
+      if(e.touches.length > 0) {
+        if(Math.random() < 0.15) {
+          spawnTrailHeart(e.touches[0].clientX, e.touches[0].clientY);
+        }
+      }
+    }, {passive: true});
 
-      // Continuous particles engine initialization
-      setInterval(spawnHeartParticle, 250);
+    function spawnTrailHeart(x, y) {
+      const h = document.createElement('div');
+      h.className = 'trail-heart';
+      h.innerText = Math.random() > 0.5 ? '❤️' : '💖';
+      h.style.left = x + 'px';
+      h.style.top = y + 'px';
+      document.body.appendChild(h);
+      setTimeout(() => h.remove(), 1000);
+    }
+
+    // Audio Control Layer Logic Implementation
+    audioToggle.addEventListener('click', () => {
+      if (romanticAudio.paused) {
+        romanticAudio.play().catch(err => console.log("Audio activation context deferred."));
+        audioToggle.innerText = '❤️';
+        audioToggle.style.background = 'rgba(255, 182, 193, 0.6)';
+      } else {
+        romanticAudio.pause();
+        audioToggle.innerText = '🎵';
+        audioToggle.style.background = 'rgba(255, 255, 255, 0.4)';
+      }
     });
 
-    // Procedural generation function for ambient celebratory hearts
-    function spawnHeartParticle() {
-      const heart = document.createElement('div');
-      heart.classList.add('heart-particle');
-      heart.innerHTML = ['❤️', '💖', '💝', '💕', '💗'][Math.floor(Math.random() * 5)];
+    function buildEnvironment() {
+      // Fireflies Generation Loop
+      for (let i = 0; i < 20; i++) {
+        createAmbientNode('✨', 'firefly', 6, 12, 4, 8);
+      }
+      // Petals Generation Loop
+      for (let i = 0; i < 15; i++) {
+        createAmbientNode('🌸', 'petal', 12, 22, 6, 12);
+      }
+      // Clouds Infrastructure Generation Logic
+      for(let i = 0; i < 4; i++) {
+        spawnCloud(i);
+      }
+    }
+
+    function createAmbientNode(char, type, minSize, maxSize, minSec, maxSec) {
+      const node = document.createElement('div');
+      node.className = 'ambient-element';
+      node.innerText = char;
       
-      heart.style.left = Math.random() * 100 + 'vw';
-      heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
-      heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
+      const size = Math.floor(Math.random() * (maxSize - minSize)) + minSize;
+      const duration = Math.random() * (maxSec - minSec) + minSec;
       
-      heartsContainer.appendChild(heart);
+      node.style.fontSize = size + 'px';
+      node.style.left = Math.random() * 100 + 'vw';
+      node.style.top = Math.random() * 100 + 'vh';
+      node.style.opacity = Math.random() * 0.6 + 0.2;
+      
+      // Setup structural drifting animations
+      node.animate([
+        { transform: 'translate(0,0) rotate(0deg)', opacity: node.style.opacity },
+        { transform: `translate(${Math.random()*60 - 30}px, ${Math.random()*(-80) - 40}px) rotate(${Math.random()*360}deg)`, opacity: 0 }
+      ], {
+        duration: duration * 1000,
+        iterations: Infinity,
+        direction: 'alternate',
+        easing: 'ease-in-out'
+      });
+      
+      ambientContainer.appendChild(node);
+    }
+
+    function spawnCloud(index) {
+      const cloud = document.createElement('div');
+      cloud.className = 'cloud';
+      const w = Math.random() * 80 + 100;
+      const h = w * 0.35;
+      cloud.style.width = w + 'px';
+      cloud.style.height = h + 'px';
+      cloud.style.top = (index * 22) + 6 + 'vh';
+      
+      // Structural proportions setup for responsive standard rendering clouds shapes
+      const style = document.createElement('style');
+      style.innerHTML = `
+        .cloud::before { width: ${w*0.5}px; height: ${w*0.5}px; top: -${w*0.25}px; left: ${w*0.15}px; }
+        .cloud::after { width: ${w*0.4}px; height: ${w*0.4}px; top: -${w*0.2}px; right: ${w*0.15}px; }
+      `;
+      document.head.appendChild(style);
+      
+      cloud.style.animationDuration = (Math.random() * 30 + 40) + 's';
+      cloud.style.animationDelay = '-' + (Math.random() * 40) + 's';
+      ambientContainer.appendChild(cloud);
+    }
+
+    // Dynamic Evasive Control Engine Mechanics for the Escape Actions
+    function initializeNoButtonCoordinates() {
+      noButton.style.position = 'absolute';
+      noButton.style.left = 'calc(50% + 25px)';
+      noButton.style.top = '16px';
+      yesButton.style.transform = `scale(${currentYesScale})`;
+    }
+
+    // Capture interaction triggers targeting either mouseover hover or touch configurations
+    noButton.addEventListener('mouseover', handleNoInteraction);
+    noButton.addEventListener('touchstart', (e) => {
+      e.preventDefault(); 
+      handleNoInteraction();
+    });
+
+    // Execute state adjustments when interacting with evasion button targets
+    function handleNoInteraction() {
+      if (noClickCount >= noPhrases.length) return;
+      
+      // Systemic Screen Shake Trigger Activation
+      shell.classList.add('shake');
+      setTimeout(() => shell.classList.remove('shake'), 150);
+
+      // Coordinate processing for bounds and boundaries metrics
+      const pRect = p1ButtonsFrame.getBoundingClientRect();
+      const bRect = noButton.getBoundingClientRect();
+      const cRect = cardElement.getBoundingClientRect();
+
+      // Ensure boundaries align dynamically within margins inside our target wrapper card limits
+      const innerMargin = 16;
+      const availableMinX = cRect.left - pRect.left + innerMargin;
+      const availableMaxX = cRect.right - pRect.left - bRect.width - innerMargin;
+      
+      // Calculate layout dynamic range allocations vertically across interactive spaces
+      const availableMinY = -60; 
+      const availableMaxY = 70;
+
+      // Select dynamic vector deviations prioritizing directional variety changes
+      let moveDirX = Math.random() > 0.4 ? -lastDirectionX : lastDirectionX;
+      if (Math.random() > 0.8) moveDirX = Math.random() > 0.5 ? 1 : -1;
+      
+      let moveDirY = Math.random() > 0.4 ? -lastDirectionY : lastDirectionY;
+      if (Math.random() > 0.8) moveDirY = Math.random() > 0.5 ? 1 : -1;
+
+      lastDirectionX = moveDirX;
+      lastDirectionY = moveDirY;
+
+      // Map calculated jump values onto current targets
+      const currentLeft = noButton.offsetLeft;
+      const currentTop = noButton.offsetTop;
+      
+      const strideX = Math.random() * 60 + 70;
+      const strideY = Math.random() * 40 + 40;
+
+      let targetX = currentLeft + (strideX * moveDirX);
+      let targetY = currentTop + (strideY * moveDirY);
+
+      // Boundary Correction Enforcements
+      if (targetX < availableMinX) { targetX = availableMinX + Math.random()*20; lastDirectionX = 1; }
+      if (targetX > availableMaxX) { targetX = availableMaxX - Math.random()*20; lastDirectionX = -1; }
+      if (targetY < availableMinY) { targetY = availableMinY + Math.random()*15; lastDirectionY = 1; }
+      if (targetY > availableMaxY) { targetY = availableMaxY - Math.random()*15; lastDirectionY = -1; }
+
+      // Smooth Animation Processing Strategy implementation
+      noButton.style.transition = 'left 0.35s cubic-bezier(0.25, 1, 0.5, 1), top 0.35s cubic-bezier(0.25, 1, 0.5, 1), transform 0.2s';
+      noButton.style.left = targetX + 'px';
+      noButton.style.top = targetY + 'px';
+
+      // Visual Node Explosions instantiation loops
+      spawnImpactParticles(bRect.left + bRect.width/2, bRect.top + bRect.height/2);
+
+      // Access string allocations securely based on iteration logs
+      const phraseText = noPhrases[noClickCount];
+      
+      // Update fixed glassmorphic message bubble with text fade handling
+      fixedBubble.classList.remove('visible');
+      setTimeout(() => {
+        fixedBubble.innerText = phraseText;
+        fixedBubble.classList.add('visible');
+      }, 100);
+
+      noClickCount++;
+
+      // Process structural phase changes sequentially based on matching constraints
+      if (phraseText === "Love Wins ❤️") {
+        executeFinalEvasionPhaseChange();
+      } else {
+        // Linear structural microgrowths until final realization thresholds are processed
+        currentYesScale += 0.045; // Increments precisely between 3% and 5% scale ratios
+        yesButton.style.transform = `scale(${currentYesScale})`;
+      }
+    }
+
+    function spawnImpactParticles(centerX, centerY) {
+      const items = ['❤️', '✨', '🥺', '💖', '✨'];
+      const maxCount = 6;
+      for(let i=0; i<maxCount; i++) {
+        const node = document.createElement('div');
+        node.className = 'interaction-node';
+        node.innerText = items[Math.floor(Math.random() * items.length)];
+        
+        const angle = (i / maxCount) * 2 * Math.PI + Math.random() * 0.4;
+        const distance = Math.random() * 50 + 40;
+        const mx = Math.cos(angle) * distance;
+        const my = Math.sin(angle) * distance;
+        
+        node.style.setProperty('--mx', mx + 'px');
+        node.style.setProperty('--my', my + 'px');
+        node.style.setProperty('--s', Math.random() * 0.6 + 0.6);
+        node.style.setProperty('--r', Math.random() * 180 - 90 + 'deg');
+        
+        node.style.left = (centerX + window.scrollX) + 'px';
+        node.style.top = (centerY + window.scrollY) + 'px';
+        
+        document.body.appendChild(node);
+        setTimeout(() => node.remove(), 1200);
+      }
+    }
+
+    function executeFinalEvasionPhaseChange() {
+      // Create high density smoke transformation matrix maps
+      const bRect = noButton.getBoundingClientRect();
+      const originX = bRect.left + bRect.width/2 + window.scrollX;
+      const originY = bRect.top + bRect.height/2 + window.scrollY;
+
+      for (let i = 0; i < 16; i++) {
+        const smoke = document.createElement('div');
+        smoke.className = 'smoke-node';
+        smoke.style.left = originX + 'px';
+        smoke.style.top = originY + 'px';
+        
+        const angle = Math.random() * 2 * Math.PI;
+        const velocity = Math.random() * 20;
+        smoke.style.transform = `translate(${Math.cos(angle)*velocity}px, ${Math.sin(angle)*velocity}px)`;
+        
+        document.body.appendChild(smoke);
+        setTimeout(() => smoke.remove(), 800);
+      }
+
+      // Hide NO button interface securely
+      noButton.style.display = 'none';
+
+      // Transition the YES button to center stage dominance smoothly
+      noButton.parentElement.style.justifyContent = 'center';
+      yesButton.style.position = 'relative';
+      yesButton.style.left = 'auto';
+      yesButton.style.top = 'auto';
+      yesButton.style.transition = 'all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
+      yesButton.style.transform = 'scale(1.25)';
+      yesButton.style.boxShadow = '0 0 30px 10px rgba(255, 65, 108, 0.5)';
+    }
+
+    // Success Event Operations Action Sequence Processing
+    yesButton.addEventListener('click', () => {
+      // Trigger mass confetti explosions metrics systems
+      executeMassiveCelebrationExplosion();
+      
+      // Process structural scene change transformations sequence animations smoothly
+      cardElement.style.opacity = '0';
+      cardElement.style.transform = 'scale(0.96) translateY(-10px)';
       
       setTimeout(() => {
-        heart.remove();
-      }, 5000);
+        page1.style.display = 'none';
+        page2.classList.remove('hidden');
+        
+        // Deepen background color space matrices dynamically to match target expectations
+        document.body.style.background = 'linear-gradient(135deg, #ffc3a0 0%, #ffafbd 100%)';
+        
+        cardElement.style.opacity = '1';
+        cardElement.style.transform = 'scale(1) translateY(0)';
+      }, 700);
+    });
+
+    function executeMassiveCelebrationExplosion() {
+      const centerX = window.innerWidth / 2;
+      const centerY = window.innerHeight / 2;
+      
+      // Confetti Rain Engine Launch Configuration Matrix elements
+      for(let i=0; i<80; i++) {
+        setTimeout(() => {
+          const node = document.createElement('div');
+          node.className = 'interaction-node';
+          
+          const components = ['❤️', '💖', '🎉', '✨', '🌸', '💝'];
+          node.innerText = components[Math.floor(Math.random() * components.length)];
+          
+          const angle = Math.random() * 2 * Math.PI;
+          const distance = Math.random() * 220 + 80;
+          const mx = Math.cos(angle) * distance;
+          const my = Math.sin(angle) * distance - 60; // Upward bias adjustments
+          
+          node.style.setProperty('--mx', mx + 'px');
+          node.style.setProperty('--my', my + 'px');
+          node.style.setProperty('--s', Math.random() * 0.8 + 0.8);
+          node.style.setProperty('--r', Math.random() * 720 - 360 + 'deg');
+          
+          node.style.left = centerX + 'px';
+          node.style.top = centerY + 'px';
+          node.style.fontSize = (Math.random() * 12 + 16) + 'px';
+          
+          document.body.appendChild(node);
+          setTimeout(() => node.remove(), 1200);
+        }, Math.random() * 250);
+      }
+
+      // Persistent rainfall particle engine setup metrics logic loop
+      const rainInterval = setInterval(() => {
+        if(document.getElementById('page-2').classList.contains('hidden')) {
+          clearInterval(rainInterval);
+          return;
+        }
+        const heartRain = document.createElement('div');
+        heartRain.className = 'ambient-element';
+        heartRain.innerText = Math.random() > 0.5 ? '❤️' : '💖';
+        heartRain.style.left = Math.random() * 100 + 'vw';
+        heartRain.style.top = '-20px';
+        heartRain.style.fontSize = (Math.random() * 10 + 14) + 'px';
+        heartRain.style.opacity = Math.random() * 0.5 + 0.4;
+        
+        document.body.appendChild(heartRain);
+        
+        const fallAnim = heartRain.animate([
+          { transform: 'translateY(0) rotate(0deg)' },
+          { transform: `translateY(105vh) translateX(${Math.random()*60 - 30}px) rotate(360deg)` }
+        ], { duration: Math.random() * 2500 + 2500, easing: 'linear' });
+        
+        fallAnim.onfinish = () => heartRain.remove();
+      }, 180);
+    }
+
+    // Letter Presentation Sequence Control Flow Architecture
+    envelopeNode.addEventListener('click', () => {
+      if(envelopeNode.classList.contains('opened')) return;
+      
+      envelopeNode.classList.add('opened');
+      
+      // Delay dynamic container adjustments until animations settle cleanly
+      setTimeout(() => {
+        document.getElementById('shell').classList.add('letter-modal-active');
+        expandedLetterBlock.classList.remove('hidden');
+        initializeTypewriterEffect();
+      }, 1000);
+    });
+
+    function initializeTypewriterEffect() {
+      let charIdx = 0;
+      typewriterTarget.textContent = '';
+      
+      function typeNextCharacter() {
+        if (charIdx < targetLetterText.length) {
+          const char = targetLetterText.charAt(charIdx);
+          typewriterTarget.textContent += char;
+          charIdx++;
+          
+          // Adaptive cadence generation logic ensuring natural readability feel
+          let calculatedDelay = 35;
+          if (char === '\n') calculatedDelay = 320;
+          else if (char === '.' || char === ',') calculatedDelay = 150;
+          
+          setTimeout(typeNextCharacter, calculatedDelay);
+        }
+      }
+      
+      typeNextCharacter();
     }
   </script>
 </body>
